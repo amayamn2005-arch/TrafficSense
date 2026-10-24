@@ -1,0 +1,114 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TrafficSense | Website Traffic Insights</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+    <a class="brand" href="/">TrafficSense</a>
+    <span class="top-label">Website Traffic Insights</span>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <p class="eyebrow">WEBSITE ANALYTICS PROJECT</p>
+        <h1>Understand your website</h1>
+        <p class="hero-text">
+            Inspect public website information and explore an illustrative
+            traffic dashboard with sample records and charts.
+        </p>
+    </section>
+
+    <section class="search-card">
+        <h2>Inspect a website</h2>
+        <p>Enter a public website URL to get started.</p>
+
+        <form method="POST" action="/">
+            <label for="website_url">Website URL</label>
+
+            <div class="search-row">
+                <input
+                    type="text"
+                    id="website_url"
+                    name="website_url"
+                    placeholder="https://example.com"
+                    value="{{ entered_url }}"
+                    required
+                >
+
+                <button type="submit">Inspect Website</button>
+                <button type="reset" class="reset-button">Reset</button>
+            </div>
+        </form>
+
+        <div class="notice">
+            <strong>Important:</strong>
+            Traffic figures, visitor records and projections are synthetic
+            demonstration data. They are not actual website traffic and
+            are not retrieved from private analytics accounts.
+        </div>
+    </section>
+
+    {% if error %}
+    <section class="error-card">
+        <h3>Unable to inspect website</h3>
+        <p>{{ error }}</p>
+    </section>
+    {% endif %}
+
+    {% if website and analytics %}
+
+    <section class="section-heading">
+        <div>
+            <p class="eyebrow">WEBSITE OVERVIEW</p>
+            <h2>{{ website.title }}</h2>
+            <p class="muted">{{ website.domain }}</p>
+        </div>
+
+        <span class="status">HTTP {{ website.status }}</span>
+    </section>
+
+    <section class="website-card">
+        <h3>Public website information</h3>
+
+        <p>{{ website.description }}</p>
+
+        <p class="website-address">
+            <strong>Website address:</strong>
+            <a href="{{ website.url }}"
+               target="_blank"
+               rel="noopener noreferrer">{{ website.url }}</a>
+        </p>
+
+        <p>
+            <strong>Public links found:</strong>
+            {{ website.links|length }}
+        </p>
+    </section>
+
+    <div class="demo-banner">
+        Illustrative statistics only — actual visitor analytics are not available.
+    </div>
+
+    <section class="metrics-grid">
+
+        <article class="metric-card">
+            <p>Simulated Page Views</p>
+            <h3>{{ "{:,}".format(analytics.total_views) }}</h3>
+            <span>Last 14 illustrative days</span>
+        </article>
+
+        <article class="metric-card">
+            <p>Simulated Unique Visitors</p>
+           
